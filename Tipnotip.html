@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip or No Tip</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .tip-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        .no-tip-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        #counters {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        #counters p {
+            margin: 10px 0;
+        }
+        #counters p:nth-child(odd) {
+            color: #3498db;
+        }
+        #counters p:nth-child(even) {
+            color: #e74c3c;
+        }
+        #total-votes {
+            font-weight: bold;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+        #comment-section {
+            margin-bottom: 20px;
+        }
+        #comment {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tip or No Tip?</h1>
+        <div id="comment-section">
+            <textarea id="comment" rows="4" placeholder="Enter your comment..."></textarea>
+        </div>
+        <button class="tip-btn" onclick="submitAndVote('tip')">Tip</button>
+        <button class="no-tip-btn" onclick="submitAndVote('noTip')">No Tip</button>
+        <div id="counters"></div>
+        <p id="total-votes"></p>
+    </div>
+
+    <script>
+        let tipCount = 0;
+        let noTipCount = 0;
+
+        function submitAndVote(button) {
+            const comment = document.getElementById('comment').value;
+            if (comment.trim()) {
+                // Here you would typically send the comment to a server
+                console.log('Comment submitted:', comment);
+                increment(button);
+            } else {
+                alert('Please enter a comment before voting.');
+            }
+        }
+
+        function increment(button) {
+            if (button === 'tip') {
+                tipCount++;
+            } else if (button === 'noTip') {
+                noTipCount++;
+            }
+            updateCounters();
+        }
+
+        function updateCounters() {
+            const total = tipCount + noTipCount;
+            const tipPercentage = total > 0 ? ((tipCount / total) * 100).toFixed(2) : 0;
+            const noTipPercentage = total > 0 ? ((noTipCount / total) * 100).toFixed(2) : 0;
+            
+            document.getElementById('counters').innerHTML = `
+                <p>Tip Count: ${tipCount} (${tipPercentage}%)</p>
+                <p>No Tip Count: ${noTipCount} (${noTipPercentage}%)</p>
+            `;
+            document.getElementById('total-votes').textContent = `Total Votes: ${total}`;
+        }
+    </script>
+</body>
+</html>
